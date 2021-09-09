@@ -1,0 +1,8 @@
+name: eks-cis-baseline
+title: eks-cis-baseline
+maintainer: MITRE Security Automation Framework (SAF) Team
+copyright: The MITRE Corporation, 2021
+copyright_email: .
+license: Apache-2.0
+summary: InSpec Profile for AWS EKS CIS Benchmark v1.0.1
+version: 0.1.0

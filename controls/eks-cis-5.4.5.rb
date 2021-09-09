@@ -1,0 +1,23 @@
+# encoding: UTF-8
+
+control 'eks-cis-5.4.5' do
+  title 'draft'
+  desc  'Encrypt traffic to HTTPS load balancers using TLS certificates.'
+  desc  'rationale', "Encrypting traffic between users and your Kubernetes
+workload is fundamental to protecting data sent over the web."
+  desc  'check', ''
+  desc  'fix', ''
+  impact 0.7
+  tag severity: 'high'
+  tag gtitle: nil
+  tag gid: nil
+  tag rid: nil
+  tag stig_id: nil
+  tag fix_id: nil
+  tag cci: nil
+  tag nist: ['SC-8', 'Rev_4']
+  tag cis_level: 2
+  tag cis_controls: ['14.4', 'Rev_7']
+  tag cis_rid: '5.4.5'
+end
+
