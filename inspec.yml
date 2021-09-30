@@ -6,3 +6,11 @@ copyright_email: .
 license: Apache-2.0
 summary: InSpec Profile for AWS EKS CIS Benchmark v1.0.1
 version: 0.1.0
+
+inputs:
+  # 4.1.1
+  - name: allowed_cluster_admin_principals
+    description: "Principal subjects allowed to hold the cluster-admin role"
+    type: Array
+    required: true
+    default: ["system:admin"]

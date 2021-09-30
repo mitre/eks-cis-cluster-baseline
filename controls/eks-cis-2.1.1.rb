@@ -63,5 +63,11 @@ https://console.aws.amazon.com/eks
   tag cis_level: 1
   tag cis_controls: ['6', 'Rev_7']
   tag cis_rid: '2.1.1'
+
+  # to get all not enabled:
+  # aws --region us-east-1 eks describe-cluster --name little-lambda-2 --query 'cluster.logging.clusterLogging[?!enabled].types'
+  
+  # to get all enabled:
+  # aws --region us-east-1 eks describe-cluster --name little-lambda-2 --query 'cluster.logging.clusterLogging[!enabled].types'
 end
 

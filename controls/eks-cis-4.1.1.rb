@@ -47,5 +47,20 @@ the clusterrolebinding to the cluster-admin role :
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.1.1'
+
+  allowed_cluster_admin_principals = input('allowed_cluster_admin_principals')
+
+  options = {
+    assignment_regex: /^([^\s]*?)\s*([^\s]*?)$/
+  }
+
+  rolebindings = parse_config(command("kubectl get clusterrolebindings cluster-admin --no-headers -o=custom-columns='NAME:.metadata.name,SUBJECT:.subjects[*].name'").stdout, options)
+
+  rolebindings.params.each do |rb|
+    describe "Cluster role bindings should restrict access to cluster-admin role" do
+      subject { rb.last }
+      it { should be_in allowed_cluster_admin_principals }
+    end
+  end
 end
 
