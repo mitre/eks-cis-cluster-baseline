@@ -8,9 +8,27 @@ summary: InSpec Profile for AWS EKS CIS Benchmark v1.0.1
 version: 0.1.0
 
 inputs:
+  - name: cluster-name
+    description: "The name of the EKS cluster under test"
+    type: String
+    required: true
+    value: "eks-test"
+
+  - name: cluster-region
+    description: "The region hosting the EKS cluster under test"
+    type: String
+    required: true
+    value: "us-east-1"
+
   # 4.1.1
   - name: allowed_cluster_admin_principals
     description: "Principal subjects allowed to hold the cluster-admin role"
     type: Array
     required: true
     default: ["system:admin"]
+
+  - name: allowlist_cidr_blocks
+    description: "IPs from within these CIDR blocks should be the only ones allowed to access the cluster via k8s API from outside the VPC"
+    type: Array
+    required: true
+    default: ["0.0.0.0/0"]

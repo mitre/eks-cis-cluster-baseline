@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-2.1.1' do
-  title 'draft'
+  title 'Enable audit logs'
   desc  "The audit logs are part of the EKS managed Kubernetes control plane
 logs that are managed by Amazon EKS. Amazon EKS is integrated with AWS
 CloudTrail, a service that provides a record of actions taken by a user, role,
@@ -64,10 +64,18 @@ https://console.aws.amazon.com/eks
   tag cis_controls: ['6', 'Rev_7']
   tag cis_rid: '2.1.1'
 
-  # to get all not enabled:
-  # aws --region us-east-1 eks describe-cluster --name little-lambda-2 --query 'cluster.logging.clusterLogging[?!enabled].types'
-  
-  # to get all enabled:
-  # aws --region us-east-1 eks describe-cluster --name little-lambda-2 --query 'cluster.logging.clusterLogging[!enabled].types'
+  region = input('cluster-region')
+  name = input('cluster-name')
+
+  log_types_enabled = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.logging.clusterLogging[?enabled].types"}).flatten
+
+  describe "All five logging types should be enabled" do
+    subject { log_types_enabled }
+    it { should include 'api' }
+    it { should include 'audit' }
+    it { should include 'authentication' }
+    it { should include 'controllerManager' }
+    it { should include 'scheduler' }
+  end
 end
 

@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.4.1' do
-  title 'draft'
+  title 'Restrict Access to the Control Plane Endpoint'
   desc  "Enable Endpoint Private Access to restrict access to the cluster's
 control plane to only an allowlist of authorized IPs."
   desc  'rationale', "
@@ -125,5 +125,38 @@ restrict network access to.
   tag cis_level: 1
   tag cis_controls: ['14.6', 'Rev_7']
   tag cis_rid: '5.4.1'
+
+  region = input('cluster-region')
+  name = input('cluster-name')
+
+  expected_allowlist = input('allowlist_cidr_blocks')
+
+  access_restrictions = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig"})
+  actual_allowlist = access_restrictions['publicAccessCidrs']
+
+
+  describe "Private access should be enabled" do
+    subject { access_restrictions }
+    its('endpointPrivateAccess') { should be true }
+  end
+
+  describe.one do
+    describe "Public access should be disabled" do
+      subject { access_restrictions }
+      its('endpointPublicAccess') { should be false }
+    end
+    describe "Public access should be restricted to an allowlist of CIDR blocks" do
+      subject { allowlist }
+      it { should exist }
+    end
+  end
+  if actual_allowlist
+    actual_allowlist.each do |cidr|
+      describe "Cluster allowlist should match expected allowlist" do
+        subject { cidr }
+        it { should be_in expected_allowlist }
+      end
+    end
+  end
 end
 
