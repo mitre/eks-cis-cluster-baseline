@@ -35,7 +35,7 @@ need to mount service account tokens to disable it."
   tag cis_rid: '4.1.6'
 
   pods = command("kubectl get pods --all-namespaces -o=custom-columns='NAME:.metadata.name,AUTOMOUNT:.spec.automountServiceAccountToken'")
-  service_accounts = command("kubectl get serviceaccounts --all-namespaces -o=custom-columns='NAME:.metadata.name,AUTOMOUNT:.spec.automountServiceAccountToken'")
+  service_accounts = command("kubectl get serviceaccounts --all-namespaces -o=custom-columns='NAME:.metadata.name,AUTOMOUNT:.automountServiceAccountToken'")
 
   options = {
     assignment_regex: /^([^\s]*?)\s*([^\s]*?)$/

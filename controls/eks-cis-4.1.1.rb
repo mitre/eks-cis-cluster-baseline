@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.1.1' do
-  title 'draft'
+  title 'Ensure that the cluster-admin role is only used where required'
   desc  "The RBAC role `cluster-admin` provides wide-ranging powers over the
 environment and should be used only where and when needed."
   desc  'rationale', "Kubernetes provides a set of default roles where RBAC is

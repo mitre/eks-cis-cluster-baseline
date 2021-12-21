@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.1.2' do
-  title 'draft'
+  title 'Minimize access to secrets'
   desc  "The Kubernetes API stores secrets, which may be service account tokens
 for the Kubernetes API or credentials used by workloads in the cluster. Access
 to these secrets should be restricted to the smallest possible group of users
@@ -26,5 +26,8 @@ secrets."
   tag cis_level: 1
   tag cis_controls: ['5.2', 'Rev_7']
   tag cis_rid: '4.1.2'
-end
 
+  describe "Manual control" do
+    skip "Manual review of user access to secrets should be conducted to ensure there are no users with excessive permissions"
+  end
+end

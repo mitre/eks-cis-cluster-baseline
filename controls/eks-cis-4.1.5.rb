@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.1.5' do
-  title 'draft'
+  title 'Ensure that default service accounts are not actively used'
   desc  "The `default` service account should not be used to ensure that rights
 granted to applications can be more easily audited and reviewed."
   desc  'rationale', "
@@ -52,5 +52,9 @@ false'`
   tag cis_level: 1
   tag cis_controls: ['5.2', 'Rev_7']
   tag cis_rid: '4.1.5'
+
+  describe "Manual control" do
+    skip "Manual review of service accounts should be conducted to ensure they do not have excessive role bindings"
+  end
 end
 

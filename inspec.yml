@@ -13,4 +13,4 @@ inputs:
     description: "Principal subjects allowed to hold the cluster-admin role"
     type: Array
     required: true
-    default: ["system:admin"]
+    value: ["system:admin"]

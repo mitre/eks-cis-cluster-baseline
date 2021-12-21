@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.1.3' do
-  title 'draft'
+  title 'Minimize wildcard use in Roles and ClusterRoles'
   desc  "Kubernetes Roles and ClusterRoles provide access to resources based on
 sets of objects and actions that can be taken on those objects. It is possible
 to set either of these to be the wildcard \"*\" which matches all items.
@@ -42,5 +42,9 @@ roles with specific objects or actions."
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_7']
   tag cis_rid: '4.1.3'
+
+  describe "Manual control" do
+    skip "Manual review of roles and cluster roles should be conducted to ensure there are no roles with wildcard ('*') permissions"
+  end
 end
 

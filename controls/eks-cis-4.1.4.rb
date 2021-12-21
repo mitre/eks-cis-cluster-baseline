@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.1.4' do
-  title 'draft'
+  title 'Minimize access to create pods'
   desc  "The ability to create pods in a namespace can provide a number of
 opportunities for privilege escalation, such as assigning privileged service
 accounts to these pods or mounting hostPaths with access to sensitive data
@@ -29,5 +29,9 @@ cluster."
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.1.4'
+
+  describe "Manual control" do
+    skip "Manual review of users who have create access to pod objects should be conducted to ensure there are no users with excessive permissions"
+  end
 end
 
