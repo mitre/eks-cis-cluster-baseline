@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.3.1' do
-  title 'draft'
+  title 'Ensure Kubernetes Secrets are encrypted using Customer Master
+  Keys (CMKs) managed in AWS KMS'
   desc  "Encrypt Kubernetes secrets, stored in etcd, using secrets encryption
 feature during Amazon EKS cluster creation."
   desc  'rationale', "
@@ -48,5 +49,15 @@ as described in the links within the 'References' section."
   tag cis_level: 1
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '5.3.1'
+
+  region = input('cluster-region')
+  name = input('cluster-name')
+
+  encryption_enabled = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.logging.clusterLogging[?enabled].types"}).flatten
+
+  describe "Encryption configuration" do
+    subject { encryption_enabled }
+    it { should exist }
+  end
 end
 
