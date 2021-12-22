@@ -49,21 +49,16 @@ ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.6'
 
-  #TODO
-
   k = command("kubectl get psp -o json")
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
-      describe.one do
-        describe "Pod security policy \"#{policy['metadata']['name']}\"" do
-          subject { policy }
-          its(['spec', 'runAsUser', 'rule']) { should cmp "MustRunAsNonRoot" }
-        end
-        describe "Pod security policy \"#{policy['metadata']['name']}\"" do
-          subject { policy }
-          its(['spec', 'runAsUser', 'rule', 'range', 'min']) { should_not eq 0 }
+      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+        it "should not allow pods to run as root" do
+          expect(policy['spec']['runAsUser']['rule']).to satisfy { |userRule| 
+            userRule == "MustRunAs" ? userRule['ranges']['min'] > 0 : userRule == "MustRunAsNonRoot" 
+          }
         end
       end
     end
