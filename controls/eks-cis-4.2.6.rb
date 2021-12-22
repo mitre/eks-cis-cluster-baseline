@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.2.6' do
-  title 'draft'
+  title 'Minimize the admission of root containers'
   desc  'Do not generally permit containers to be run as the root user.'
   desc  'rationale', "
     Containers may run as any Linux user. Containers which run as the root
@@ -48,5 +48,25 @@ ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
   tag cis_level: 2
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.6'
+
+  #TODO
+
+  k = command("kubectl get psp -o json")
+  psp = json(content: k.stdout)
+
+  describe.one do
+    psp.items.each do |policy|
+      describe.one do
+        describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+          subject { policy }
+          its(['spec', 'runAsUser', 'rule']) { should cmp "MustRunAsNonRoot" }
+        end
+        describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+          subject { policy }
+          its(['spec', 'runAsUser', 'rule', 'range', 'min']) { should_not eq 0 }
+        end
+      end
+    end
+  end
 end
 

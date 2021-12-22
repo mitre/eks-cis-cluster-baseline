@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.1.6' do
-  title 'draft'
+  title 'Ensure that Service Account Tokens are only mounted where necessary'
   desc  "Service accounts tokens should not be mounted in pods except where the
 workload running in the pod explicitly needs to communicate with the API server"
   desc  'rationale', "

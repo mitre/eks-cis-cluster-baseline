@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.2.3' do
-  title 'draft'
+  title 'Minimize the admission of containers wishing to share the host
+  IPC namespace'
   desc  "Do not generally permit containers to be run with the `hostIPC` flag
 set to true."
   desc  'rationale', "
@@ -45,5 +46,17 @@ ensuring that the `.spec.hostIPC` field is omitted or set to false."
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.3'
+
+  k = command("kubectl get psp -o json")
+  psp = json(content: k.stdout)
+
+  describe.one do
+    psp.items.each do |policy|
+      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+        subject { policy }
+        its(['spec', 'hostIPC']) { should_not be true }
+      end
+    end
+  end
 end
 

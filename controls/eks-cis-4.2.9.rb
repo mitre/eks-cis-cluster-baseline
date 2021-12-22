@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.2.9' do
-  title 'draft'
+  title 'Minimize the admission of containers with capabilities assigned'
   desc  'Do not generally permit containers with capabilities'
   desc  'rationale', "
     Containers run with a default set of capabilities as assigned by the
@@ -41,5 +41,17 @@ containers which do not drop all capabilities."
   tag cis_level: 2
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.9'
+
+  k = command("kubectl get psp -o json")
+  psp = json(content: k.stdout)
+
+  describe.one do
+    psp.items.each do |policy|
+      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+        subject { policy }
+        its(['spec', 'requiredDropCapabilities']) { should cmp 'ALL' }
+      end
+    end
+  end
 end
 

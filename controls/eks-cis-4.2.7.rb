@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.2.7' do
-  title 'draft'
+  title 'Minimize the admission of containers with the NET_RAW
+  capability'
   desc  "Do not generally permit containers with the potentially dangerous
 NET_RAW capability."
   desc  'rationale', "
@@ -49,5 +50,17 @@ ensuring that the `.spec.requiredDropCapabilities` is set to include either
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.7'
+
+  k = command("kubectl get psp -o json")
+  psp = json(content: k.stdout)
+
+  describe.one do
+    psp.items.each do |policy|
+      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+        subject { policy }
+        its(['spec', 'requiredDropCapabilities']) { should be_in ['NET_RAW', 'ALL'] }
+      end
+    end
+  end
 end
 

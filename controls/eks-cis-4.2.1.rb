@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.2.1' do
-  title 'draft'
+  title 'Minimize the admission of privileged containers'
   desc  "Do not generally permit containers to be run with the
 `securityContext.privileged` flag set to `true`."
   desc  'rationale', "
@@ -48,5 +48,17 @@ ensuring that the `.spec.privileged` field is omitted or set to `false`."
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.1'
+
+  k = command("kubectl get psp -o json")
+  psp = json(content: k.stdout)
+
+  describe.one do
+    psp.items.each do |policy|
+      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+        subject { policy }
+        its(['spec', 'privileged']) { should_not be true }
+      end
+    end
+  end
 end
 

@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.2.8' do
-  title 'draft'
+  title 'Minimize the admission of containers with added capabilities'
   desc  "Do not generally permit containers with capabilities assigned beyond
 the default set."
   desc  'rationale', "
@@ -41,5 +41,17 @@ the cluster unless it is set to an empty array."
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.8'
+
+  k = command("kubectl get psp -o json")
+  psp = json(content: k.stdout)
+
+  describe.one do
+    psp.items.each do |policy|
+      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
+        subject { policy }
+        its(['spec', 'allowedCapabilities']) { should be_empty }
+      end
+    end
+  end
 end
 
