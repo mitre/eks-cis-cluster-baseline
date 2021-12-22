@@ -49,7 +49,7 @@ the cluster unless it is set to an empty array."
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'allowedCapabilities']) { should be_empty }
+        its(['spec', 'allowedCapabilities']) { should be_in [nil, []] }
       end
     end
   end
