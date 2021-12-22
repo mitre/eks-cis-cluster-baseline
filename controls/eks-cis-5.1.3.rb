@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.1.3' do
-  title 'draft'
+  title 'Minimize cluster access to read-only for Amazon ECR'
   desc  "Configure the Cluster Service Account with Storage Object Viewer Role
 to only allow read-only access to Amazon ECR."
   desc  'rationale', "The Cluster Service Account does not require
@@ -55,5 +55,9 @@ ECR.
   tag cis_level: 1
   tag cis_controls: ['3.2', 'Rev_7']
   tag cis_rid: '5.1.3'
+
+  describe "Manual control" do
+    skip "Manual review is required to ensure AWS ECS worker node IAM Policy Permissions are set and the minimum required level"
+  end
 end
 

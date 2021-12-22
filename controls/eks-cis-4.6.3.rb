@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.6.3' do
-  title 'draft'
+  title 'The default namespace should not be used'
   desc  "Kubernetes provides a default namespace, where objects are placed if
 no namespace is specified for them. Placing objects in this namespace makes
 application of RBAC and other controls more difficult."
@@ -33,5 +33,14 @@ specific namespace."
   tag cis_level: 2
   tag cis_controls: ['5.1', 'Rev_7']
   tag cis_rid: '4.6.3'
+
+  default_namespace_objects = command(
+    "kubectl get all -n default -o=custom-columns=':.metadata.name' --no-headers"
+  ).stdout.split
+
+  describe "Only default objects should be present in the default namespace -- list of objects in the default namespace" do
+    subject{ default_namespace_objects }
+    it { should eq ["kubernetes"] }
+  end
 end
 

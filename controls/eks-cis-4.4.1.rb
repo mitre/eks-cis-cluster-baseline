@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.4.1' do
-  title 'draft'
+  title 'Prefer using secrets as files over secrets as environment variables'
   desc  "Kubernetes supports mounting secrets as data volumes or as environment
 variables. Minimize the use of environment variable secrets."
   desc  'rationale', "It is reasonably common for application code to log out
@@ -32,5 +32,14 @@ mounted secret files, rather than from environment variables."
   tag cis_level: 2
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '4.4.1'
+
+  secrets_from_env = command(
+    "kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\n\"}{end}' -A"
+  ).stdout
+
+  describe "Pods should not be setting environment variables using k8s secret objects" do
+    subject { secrets_from_env }
+    it { should be_empty }
+  end
 end
 

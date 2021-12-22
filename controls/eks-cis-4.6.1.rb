@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.6.1' do
-  title 'draft'
+  title 'Create administrative boundaries between resources using
+  namespaces'
   desc  'Use namespaces to isolate your Kubernetes objects.'
   desc  'rationale', "Limiting the scope of user permissions can reduce the
 impact of mistakes or malicious activities. A Kubernetes namespace allows you
@@ -35,5 +36,9 @@ your deployment as you need them."
   tag cis_level: 1
   tag cis_controls: ['14', 'Rev_6']
   tag cis_rid: '4.6.1'
+
+  describe "Manual control" do
+    skip "Manual review of namespaces is required to ensure proper configuration, and that no more namespaces exist than are needed"
+  end
 end
 

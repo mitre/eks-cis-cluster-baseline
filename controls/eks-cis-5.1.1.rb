@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.1.1' do
-  title 'draft'
+  title 'Ensure Image Vulnerability Scanning using Amazon ECR image
+  scanning or a third party provider'
   desc  'Scan images being deployed to Amazon EKS for vulnerabilities.'
   desc  'rationale', "Vulnerabilities in software packages can be exploited by
 hackers or malicious users to obtain unauthorized access to local cloud
@@ -47,5 +48,9 @@ to scan.
   tag cis_level: 1
   tag cis_controls: ['3', 'Rev_7']
   tag cis_rid: '5.1.1'
+
+  describe "Manual control" do
+    skip "Manual review is required to ensure images are scanned for vulnerabilities"
+  end
 end
 

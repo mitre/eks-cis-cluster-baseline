@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.5.1' do
-  title 'draft'
+  title 'Manage Kubernetes RBAC users with AWS IAM Authenticator for
+  Kubernetes'
   desc  "Amazon EKS uses IAM to provide authentication to your Kubernetes
 cluster through the AWS IAM Authenticator for Kubernetes. You can configure the
 stock kubectl client to work with Amazon EKS by installing the AWS IAM
@@ -36,5 +37,9 @@ in Amazon EKS documentation."
   tag cis_level: 2
   tag cis_controls: ['16.2', 'Rev_7']
   tag cis_rid: '5.5.1'
+
+  describe "Manual control" do
+    skip "Manual review is required to ensure all AWS IAM roles with access to cluster namespaces are allowed"
+  end
 end
 

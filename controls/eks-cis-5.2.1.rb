@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.2.1' do
-  title 'draft'
+  title 'Prefer using dedicated EKS Service Accounts'
   desc  "Kubernetes workloads should not use cluster node service accounts to
 authenticate to Amazon EKS APIs. Each Kubernetes workload that needs to
 authenticate to other AWS services using AWS IAM should be provisioned with a
@@ -72,5 +72,9 @@ accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service
   tag cis_level: 1
   tag cis_controls: ['4.3', 'Rev_7']
   tag cis_rid: '5.2.1'
+
+  describe "Manual control" do
+    skip "Manual review is required to ensure any namespace default service accounts have no excessive roles"
+  end
 end
 

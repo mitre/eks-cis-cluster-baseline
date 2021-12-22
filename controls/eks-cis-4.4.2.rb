@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.4.2' do
-  title 'draft'
+  title 'Consider external secret storage'
   desc  "Consider the use of an external secrets storage and management system,
 instead of using Kubernetes Secrets directly, if you have more complex secret
 management needs. Ensure the solution requires authentication to access
@@ -27,5 +27,9 @@ provider or a third-party secrets management solution."
   tag cis_level: 2
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '4.4.2'
+
+  describe "Manual control" do
+    skip "Manual review of secrets management implementation is required"
+  end
 end
 

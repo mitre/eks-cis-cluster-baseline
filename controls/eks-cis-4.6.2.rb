@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.6.2' do
-  title 'draft'
+  title 'Apply Security Context to Your Pods and Containers'
   desc  'Apply Security Context to Your Pods and Containers'
   desc  'rationale', "A security context defines the operating system security
 settings (uid, gid, capabilities, SELinux role, etc..) applied to a container.
@@ -93,5 +93,9 @@ host path.
   tag cis_level: 2
   tag cis_controls: ['3', 'Rev_6']
   tag cis_rid: '4.6.2'
+
+  describe "Manual control" do
+    skip "Manual review of which security policies are applied to which pods is required"
+  end
 end
 

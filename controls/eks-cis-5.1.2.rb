@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.1.2' do
-  title 'draft'
+  title 'Minimize user access to Amazon ECR'
   desc  "Restrict user access to Amazon ECR, limiting interaction with build
 images to only authorized personnel and service accounts."
   desc  'rationale', "Weak access control to Amazon ECR may allow malicious
@@ -133,5 +133,9 @@ Amazon Elastic Container Registry.
   tag cis_level: 1
   tag cis_controls: ['14.6', 'Rev_7']
   tag cis_rid: '5.1.2'
+
+  describe "Manual control" do
+    skip "Manual review is required to ensure only authorized accounts can access Amazon ECR if it is in use"
+  end
 end
 

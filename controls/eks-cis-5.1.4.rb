@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-5.1.4' do
-  title 'draft'
+  title 'Minimize Container Registries to only those approved'
   desc  'Use approved container registries.'
   desc  'rationale', "Allowing unrestricted access to external container
 registries provides the opportunity for malicious or unapproved containers to
@@ -21,5 +21,9 @@ reduces this risk."
   tag cis_level: 2
   tag cis_controls: ['5.2', 'Rev_7']
   tag cis_rid: '5.1.4'
+
+  describe "Manual control" do
+    skip "Manual review is required to ensure images originate from only approved container registries"
+  end
 end
 
