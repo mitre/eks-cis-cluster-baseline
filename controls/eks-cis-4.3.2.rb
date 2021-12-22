@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.3.2' do
-  title 'draft'
+  title 'Ensure that all Namespaces have Network Policies defined'
   desc  'Use network policies to isolate traffic in your cluster network.'
   desc  'rationale', "
     Running different applications on the same Kubernetes cluster creates a
@@ -41,5 +41,18 @@ you need them."
   tag cis_level: 2
   tag cis_controls: ['14.1', 'Rev_6']
   tag cis_rid: '4.3.2'
+
+  # namespaces = ["default"]
+  namespaces = command("kubectl get namespace -o=custom-columns=:.metadata.name --no-headers").stdout.split
+
+  namespaces.each do |namespace|
+    namespace_network_policy = command(
+      "kubectl get networkpolicy -n #{namespace} -o=custom-columns=:.metadata.name --no-headers"
+    ).stdout
+    describe "Namespace \"#{namespace}\" should have a defined network policy, network policy query result" do
+      subject { namespace_network_policy }
+      it { should_not be_empty }
+    end
+  end
 end
 

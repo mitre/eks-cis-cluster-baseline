@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 control 'eks-cis-4.3.1' do
-  title 'draft'
+  title 'Ensure latest CNI version is used'
   desc  "There are a variety of CNI plugins available for Kubernetes. If the
 CNI in use does not support Network Policies it may not be possible to
 effectively restrict traffic in the cluster."
@@ -26,5 +26,9 @@ policy using Calico."
   tag cis_level: 1
   tag cis_controls: ['18.4', 'Rev_7']
   tag cis_rid: '4.3.1'
+
+  describe "Manual control" do
+    skip "Manual review of the documentation of the CNI plugin in use is required"
+  end
 end
 
