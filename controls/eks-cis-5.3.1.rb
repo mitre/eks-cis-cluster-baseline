@@ -53,11 +53,11 @@ as described in the links within the 'References' section."
   region = input('cluster-region')
   name = input('cluster-name')
 
-  encryption_enabled = json({command: "aws eks describe-cluster --region #{region} --name #{name}"})
+  encryption_enabled = command("aws eks describe-cluster --region #{region} --name #{name} --query cluster.encryptionConfig").stdout.strip
 
-  describe "Encryption configuration settings" do
+  describe "Encryption configuration" do
     subject { encryption_enabled }
-    its(['cluster', 'encryptionConfig'] { should exist }
+    it { should_not eq "null" }
   end
 end
 
