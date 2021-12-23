@@ -53,11 +53,11 @@ as described in the links within the 'References' section."
   region = input('cluster-region')
   name = input('cluster-name')
 
-  encryption_enabled = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.logging.clusterLogging[?enabled].types"}).flatten
+  encryption_enabled = json({command: "aws eks describe-cluster --region #{region} --name #{name}"})
 
-  describe "Encryption configuration" do
+  describe "Encryption configuration settings" do
     subject { encryption_enabled }
-    it { should exist }
+    its(['cluster', 'encryptionConfig'] { should exist }
   end
 end
 
