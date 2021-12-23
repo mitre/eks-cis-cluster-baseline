@@ -34,7 +34,7 @@ mounted secret files, rather than from environment variables."
   tag cis_rid: '4.4.1'
 
   secrets_from_env = command(
-    "kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\n\"}{end}' -A"
+    "kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]}'"
   ).stdout
 
   describe "Pods should not be setting environment variables using k8s secret objects" do
