@@ -34,25 +34,32 @@ need to mount service account tokens to disable it."
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.1.6'
 
-  pods = command("kubectl get pods --all-namespaces -o=custom-columns='NAME:.metadata.name,AUTOMOUNT:.spec.automountServiceAccountToken'")
-  service_accounts = command("kubectl get serviceaccounts --all-namespaces -o=custom-columns='NAME:.metadata.name,AUTOMOUNT:.automountServiceAccountToken'")
-
-  options = {
+  parse_options = {
     assignment_regex: /^([^\s]*?)\s*([^\s]*?)$/
   }
 
-  parse_config(pods.stdout, options).params.each do |pod|
-    describe "Pod #{pod[0]} automountServiceAccountToken" do
-      subject { pod[1] }
-      it { should cmp "false" }
+  pods = command("kubectl get pods --all-namespaces -o=custom-columns=':.metadata.name,AUTOMOUNT:.spec.automountServiceAccountToken' --no-headers")
+  pods_with_automount_tokens = parse_config(pods.stdout, parse_options)
+    .params.select{ |key, value| value != "false" }.keys
+
+  service_accounts = command("kubectl get serviceaccounts --all-namespaces -o=custom-columns=':.metadata.name,:.automountServiceAccountToken' --no-headers")
+  sa_with_automount_tokens = parse_config(service_accounts.stdout, parse_options)
+    .params.select{ |key, value| value != "false" }.keys
+
+  describe "List of pods with automount service account token setting" do
+    subject { pods_with_automount_tokens }
+    it "should be empty" do
+      fail_msg = "List of pods with automountServiceAccountToken setting: #{pods_with_automount_tokens.join(', ')}"
+      expect(pods_with_automount_tokens).to be_empty, fail_msg
     end
   end
 
-  parse_config(service_accounts.stdout, options).params.each do |service_account|
-    describe "Service account #{service_account[0]} automountServiceAccountToken" do
-      subject { service_account[1] }
-      it { should cmp "false" }
+  describe "List of service accounts with automount service account token setting" do
+    subject { sa_with_automount_tokens }
+    it "should be empty" do
+      fail_msg = "List of service accounts with automountServiceAccountToken setting: #{sa_with_automount_tokens.join(', ')}"
+      expect(sa_with_automount_tokens).to be_empty, fail_msg
     end
-  end 
+  end
 end
 

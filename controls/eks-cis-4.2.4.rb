@@ -54,7 +54,7 @@ ensuring that the `.spec.hostNetwork` field is omitted or set to false."
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'hostNetwork']) { should_not be true }
+        its(['spec', 'hostNetwork']) { should_not eq true }
       end
     end
   end

@@ -56,7 +56,7 @@ false."
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'allowPrivilegeEscalation']) { should_not be true }
+        its(['spec', 'allowPrivilegeEscalation']) { should_not eq true }
       end
     end
   end
