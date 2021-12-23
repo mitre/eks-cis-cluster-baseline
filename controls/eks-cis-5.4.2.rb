@@ -54,8 +54,8 @@ network to perform any attack on the Kubernetes API.
       its('endpointPublicAccess') { should be false }
     end
     describe "Public access should be restricted to an allowlist of CIDR blocks" do
-      subject { allowlist }
-      it { should exist }
+      subject { actual_allowlist }
+      it { should_not eq nil }
     end
   end
   if actual_allowlist

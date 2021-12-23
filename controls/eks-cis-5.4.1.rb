@@ -134,7 +134,6 @@ restrict network access to.
   access_restrictions = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig"})
   actual_allowlist = access_restrictions['publicAccessCidrs']
 
-
   describe "Private access should be enabled" do
     subject { access_restrictions }
     its('endpointPrivateAccess') { should be true }
@@ -146,8 +145,8 @@ restrict network access to.
       its('endpointPublicAccess') { should be false }
     end
     describe "Public access should be restricted to an allowlist of CIDR blocks" do
-      subject { allowlist }
-      it { should exist }
+      subject { actual_allowlist }
+      it { should_not eq nil }
     end
   end
   if actual_allowlist

@@ -25,7 +25,7 @@ inputs:
     description: "Principal subjects allowed to hold the cluster-admin role"
     type: Array
     required: true
-    value: ["system:admin"]
+    value: ["system:admin", "system:masters"]
 
   - name: allowlist_cidr_blocks
     description: "IPs from within these CIDR blocks should be the only ones allowed to access the cluster via k8s API from outside the VPC"
