@@ -1,10 +1,8 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.6.1' do
   title 'Consider Fargate for running untrusted workloads'
   desc  'It is Best Practice to restrict or fence untrusted workloads when running in a multi-tenant
   environment.'
-  desc  'rationale', "AWS Fargate is a technology that provides on-demand, right-sized compute capacity for
+  desc 'rationale', "AWS Fargate is a technology that provides on-demand, right-sized compute capacity for
 containers. With AWS Fargate, you no longer have to provision, configure, or scale groups
 of virtual machines to run containers. This removes the need to choose server types, decide
 when to scale your node groups, or optimize cluster packing.
@@ -25,7 +23,7 @@ and schedule the pod onto Fargate.
 underlying kernel, CPU resources, memory resources, or elastic network interface with
 another pod.
   "
-  desc  'check', "
+  desc 'check', "
     Check the existence of Fargate profiles in the Amazon EKS cluster by using:
     ```
     aws --region ${AWS_REGION} eks list-fargate-profiles --cluster-name
@@ -43,7 +41,7 @@ another pod.
     fargate-ip-192-168-104-74.us-east-2.compute.internal Ready 2m15s v1.14.8-eks
     ```
     "
-  desc  'fix', "
+  desc 'fix', "
     Create a Fargate profile for your cluster
     Before you can schedule pods running on Fargate in your cluster, you must define a Fargate
 profile that specifies which pods should use Fargate when they are launched. For more
@@ -102,8 +100,7 @@ choose Create.
   tag cis_level: 1
   tag cis_rid: '5.6.1'
 
-  describe "Manual control" do
-    skip "Manual review is required to determine if the cluster requires a Fargate profile for untrusted workloads"
+  describe 'Manual control' do
+    skip 'Manual review is required to determine if the cluster requires a Fargate profile for untrusted workloads'
   end
 end
-

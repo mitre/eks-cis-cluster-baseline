@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.1.1' do
   title 'Ensure that the cluster-admin role is only used where required'
   desc  "The RBAC role `cluster-admin` provides wide-ranging powers over the
@@ -23,7 +21,7 @@ access to the `cluster-admin` role.
     Review each principal listed and ensure that `cluster-admin` privilege is
 required for it.
   "
-  desc  'fix', "
+  desc 'fix', "
     Identify all clusterrolebindings to the cluster-admin role. Check if they
 are used and if they need this role or if they could use a role with fewer
 privileges.
@@ -43,27 +41,26 @@ the clusterrolebinding to the cluster-admin role :
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.1.1'
 
   allowed_cluster_admin_principals = input('allowed_cluster_admin_principals')
 
-  cluster_admin_principals = command("kubectl get clusterrolebindings cluster-admin --no-headers -o=custom-columns=':.subjects[*].name'").stdout.gsub("\r","").split("\n")
+  cluster_admin_principals = command("kubectl get clusterrolebindings cluster-admin --no-headers -o=custom-columns=':.subjects[*].name'").stdout.gsub("\r", '').split("\n")
 
   if cluster_admin_principals?
     cluster_admin_principals.each do |principal|
-      describe "Cluster role bindings should restrict access to cluster-admin role" do
+      describe 'Cluster role bindings should restrict access to cluster-admin role' do
         subject { principal }
         it { should be_in allowed_cluster_admin_principals }
       end
     end
   else
-    describe "Query for cluster role bindings failed" do
+    describe 'Query for cluster role bindings failed' do
       subject { cluster_admin_principals }
       it { should exist }
     end
   end
 end
-

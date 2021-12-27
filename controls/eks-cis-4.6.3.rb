@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.6.3' do
   title 'The default namespace should not be used'
   desc  "Kubernetes provides a default namespace, where objects are placed if
@@ -18,7 +16,7 @@ make it easier to manage resources."
     The only entries there should be system managed resources such as the
 `kubernetes` service
   "
-  desc  'fix', "Ensure that namespaces are created to allow for appropriate
+  desc 'fix', "Ensure that namespaces are created to allow for appropriate
 segregation of Kubernetes resources and that all new resources are created in a
 specific namespace."
   impact 0.7
@@ -29,7 +27,7 @@ specific namespace."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['5.1', 'Rev_7']
   tag cis_rid: '4.6.3'
@@ -38,9 +36,8 @@ specific namespace."
     "kubectl get all -n default -o=custom-columns=':.metadata.name' --no-headers"
   ).stdout.split
 
-  describe "Only default objects should be present in the default namespace -- list of objects in the default namespace" do
-    subject{ default_namespace_objects }
-    it { should eq ["kubernetes"] }
+  describe 'Only default objects should be present in the default namespace -- list of objects in the default namespace' do
+    subject { default_namespace_objects }
+    it { should eq ['kubernetes'] }
   end
 end
-

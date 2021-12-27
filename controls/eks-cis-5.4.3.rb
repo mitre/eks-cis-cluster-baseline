@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.4.3' do
   title 'Ensure clusters are created with Private Nodes'
   desc  "Disable public IP addresses for cluster nodes, so that they only have
@@ -19,16 +17,15 @@ access before attempting to compromise the underlying Kubernetes hosts."
   tag cci: nil
   tag nist: ['SC-7 (8)', 'Rev_4']
   tag cis_level: 1
-  tag cis_controls: ['12', 'Rev_7']
+  tag cis_controls: %w(12 Rev_7)
   tag cis_rid: '5.4.3'
 
-  address_key = os.windows? ? '\"ExternalIP\"' : 'ExternalIP' 
+  address_key = os.windows? ? '\"ExternalIP\"' : 'ExternalIP'
 
   node_external_addresses = command("kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type==#{address_key})].address}'").stdout.strip
 
-  describe "The list of externally accessible IP addresses for nodes" do
+  describe 'The list of externally accessible IP addresses for nodes' do
     subject { node_external_addresses }
     it { should be_empty }
   end
 end
-

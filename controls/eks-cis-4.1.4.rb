@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.1.4' do
   title 'Minimize access to create pods'
   desc  "The ability to create pods in a namespace can provide a number of
@@ -25,13 +23,12 @@ cluster."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.1.4'
 
-  describe "Manual control" do
-    skip "Manual review of users who have create access to pod objects should be conducted to ensure there are no users with excessive permissions"
+  describe 'Manual control' do
+    skip 'Manual review of users who have create access to pod objects should be conducted to ensure there are no users with excessive permissions'
   end
 end
-

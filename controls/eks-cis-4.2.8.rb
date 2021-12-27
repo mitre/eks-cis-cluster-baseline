@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.2.8' do
   title 'Minimize the admission of containers with added capabilities'
   desc  "Do not generally permit containers with capabilities assigned beyond
@@ -27,7 +25,7 @@ access that PSP.
     Verify that there are no PSPs present which have `allowedCapabilities` set
 to anything other than an empty array.
   "
-  desc  'fix', "Ensure that `allowedCapabilities` is not present in PSPs for
+  desc 'fix', "Ensure that `allowedCapabilities` is not present in PSPs for
 the cluster unless it is set to an empty array."
   impact 0.5
   tag severity: 'medium'
@@ -37,21 +35,20 @@ the cluster unless it is set to an empty array."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.8'
 
-  k = command("kubectl get psp -o json")
+  k = command('kubectl get psp -o json')
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'allowedCapabilities']) { should be_in [nil, []] }
+        its(%w(spec allowedCapabilities)) { should be_in [nil, []] }
       end
     end
   end
 end
-

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.1.1' do
   title 'Ensure Image Vulnerability Scanning using Amazon ECR image
   scanning or a third party provider'
@@ -44,13 +42,12 @@ to scan.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['RA-5', 'Rev_4']
+  tag nist: %w(RA-5 Rev_4)
   tag cis_level: 1
-  tag cis_controls: ['3', 'Rev_7']
+  tag cis_controls: %w(3 Rev_7)
   tag cis_rid: '5.1.1'
 
-  describe "Manual control" do
-    skip "Manual review is required to ensure images are scanned for vulnerabilities"
+  describe 'Manual control' do
+    skip 'Manual review is required to ensure images are scanned for vulnerabilities'
   end
 end
-

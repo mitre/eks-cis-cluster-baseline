@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.1.4' do
   title 'Minimize Container Registries to only those approved'
   desc  'Use approved container registries.'
@@ -17,13 +15,12 @@ reduces this risk."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-2', 'Rev_4']
+  tag nist: %w(CM-2 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['5.2', 'Rev_7']
   tag cis_rid: '5.1.4'
 
-  describe "Manual control" do
-    skip "Manual review is required to ensure images originate from only approved container registries"
+  describe 'Manual control' do
+    skip 'Manual review is required to ensure images originate from only approved container registries'
   end
 end
-

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.4.1' do
   title 'Prefer using secrets as files over secrets as environment variables'
   desc  "Kubernetes supports mounting secrets as data volumes or as environment
@@ -28,7 +26,7 @@ mounted secret files, rather than from environment variables."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-28', 'Rev_4']
+  tag nist: %w(SC-28 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '4.4.1'
@@ -37,9 +35,8 @@ mounted secret files, rather than from environment variables."
     "kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]}'"
   ).stdout
 
-  describe "Pods should not be setting environment variables using k8s secret objects" do
+  describe 'Pods should not be setting environment variables using k8s secret objects' do
     subject { secrets_from_env }
     it { should be_empty }
   end
 end
-

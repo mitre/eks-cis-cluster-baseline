@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.4.2' do
   title 'Ensure clusters are created with Private Endpoint Enabled and
   Public Access Disabled'
@@ -32,7 +30,7 @@ network to perform any attack on the Kubernetes API.
   tag cci: nil
   tag nist: ['SC-7 (8)', 'Rev_4']
   tag cis_level: 2
-  tag cis_controls: ['12', 'Rev_7']
+  tag cis_controls: %w(12 Rev_7)
   tag cis_rid: '5.4.2'
 
   region = input('cluster-region')
@@ -40,31 +38,30 @@ network to perform any attack on the Kubernetes API.
 
   expected_allowlist = input('allowlist_cidr_blocks')
 
-  access_restrictions = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig"})
+  access_restrictions = json({ command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig" })
   actual_allowlist = access_restrictions['publicAccessCidrs']
 
-  describe "Private access should be enabled" do
+  describe 'Private access should be enabled' do
     subject { access_restrictions }
     its('endpointPrivateAccess') { should be true }
   end
 
   describe.one do
-    describe "Public access should be disabled" do
+    describe 'Public access should be disabled' do
       subject { access_restrictions }
       its('endpointPublicAccess') { should be false }
     end
-    describe "Public access should be restricted to an allowlist of CIDR blocks" do
+    describe 'Public access should be restricted to an allowlist of CIDR blocks' do
       subject { actual_allowlist }
       it { should_not eq nil }
     end
   end
   if actual_allowlist
     actual_allowlist.each do |cidr|
-      describe "Cluster allowlist should match expected allowlist" do
+      describe 'Cluster allowlist should match expected allowlist' do
         subject { cidr }
         it { should be_in expected_allowlist }
       end
     end
   end
 end
-

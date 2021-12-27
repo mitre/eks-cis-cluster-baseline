@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.4.4' do
   title 'Ensure Network Policy is Enabled and set as appropriate'
   desc  "Use Network Policy to restrict pod to pod traffic within a cluster and
@@ -33,8 +31,7 @@ enforcement through the use of Calico.
   tag cis_controls: ['9.2', 'Rev_7']
   tag cis_rid: '5.4.4'
 
-  describe "Manual control" do
+  describe 'Manual control' do
     skip "Manual review of Network Policy is required to ensure it is correctly configured for the cluster's workloads"
   end
 end
-

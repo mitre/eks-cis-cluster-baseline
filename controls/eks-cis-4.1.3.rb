@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.1.3' do
   title 'Minimize wildcard use in Roles and ClusterRoles'
   desc  "Kubernetes Roles and ClusterRoles provide access to resources based on
@@ -28,7 +26,7 @@ for wildcards
     kubectl get clusterroles -o yaml
     ```
   "
-  desc  'fix', "Where possible replace any use of wildcards in clusterroles and
+  desc 'fix', "Where possible replace any use of wildcards in clusterroles and
 roles with specific objects or actions."
   impact 0.5
   tag severity: 'medium'
@@ -38,13 +36,12 @@ roles with specific objects or actions."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_7']
   tag cis_rid: '4.1.3'
 
-  describe "Manual control" do
+  describe 'Manual control' do
     skip "Manual review of roles and cluster roles should be conducted to ensure there are no roles with wildcard ('*') permissions"
   end
 end
-

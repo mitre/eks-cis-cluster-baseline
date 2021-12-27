@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.3.1' do
   title 'Ensure latest CNI version is used'
   desc  "There are a variety of CNI plugins available for Kubernetes. If the
@@ -27,8 +25,7 @@ policy using Calico."
   tag cis_controls: ['18.4', 'Rev_7']
   tag cis_rid: '4.3.1'
 
-  describe "Manual control" do
-    skip "Manual review of the documentation of the CNI plugin in use is required"
+  describe 'Manual control' do
+    skip 'Manual review of the documentation of the CNI plugin in use is required'
   end
 end
-

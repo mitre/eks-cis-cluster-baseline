@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.4.2' do
   title 'Consider external secret storage'
   desc  "Consider the use of an external secrets storage and management system,
@@ -23,13 +21,12 @@ provider or a third-party secrets management solution."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-28', 'Rev_4']
+  tag nist: %w(SC-28 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '4.4.2'
 
-  describe "Manual control" do
-    skip "Manual review of secrets management implementation is required"
+  describe 'Manual control' do
+    skip 'Manual review of secrets management implementation is required'
   end
 end
-

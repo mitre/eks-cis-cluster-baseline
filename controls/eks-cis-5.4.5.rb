@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.4.5' do
   title 'Encrypt traffic to HTTPS load balancers with TLS certificates'
   desc  'Encrypt traffic to HTTPS load balancers using TLS certificates.'
@@ -15,13 +13,12 @@ workload is fundamental to protecting data sent over the web."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-8', 'Rev_4']
+  tag nist: %w(SC-8 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['14.4', 'Rev_7']
   tag cis_rid: '5.4.5'
 
-  describe "Manual control" do
-    skip "Manual review is required to ensure TLS is properly configured"
+  describe 'Manual control' do
+    skip 'Manual review is required to ensure TLS is properly configured'
   end
 end
-

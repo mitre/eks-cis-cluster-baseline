@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.2.6' do
   title 'Minimize the admission of root containers'
   desc  'Do not generally permit containers to be run as the root user.'
@@ -33,7 +31,7 @@ service accounts and users are given permission to access that PSP.
     Verify that there is at least one PSP which returns `MustRunAsNonRoot` or
 `MustRunAs` with the range of UIDs not including 0.
   "
-  desc  'fix', "Create a PSP as described in the Kubernetes documentation,
+  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
 ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
 `MustRunAs` with the range of UIDs not including 0."
   impact 0.7
@@ -44,24 +42,23 @@ ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.6'
 
-  k = command("kubectl get psp -o json")
+  k = command('kubectl get psp -o json')
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
-        it "should not allow pods to run as root" do
-          expect(policy['spec']['runAsUser']['rule']).to satisfy { |userRule| 
-            userRule == "MustRunAs" ? userRule['ranges']['min'] > 0 : userRule == "MustRunAsNonRoot" 
+        it 'should not allow pods to run as root' do
+          expect(policy['spec']['runAsUser']['rule']).to satisfy { |userRule|
+            userRule == 'MustRunAs' ? userRule['ranges']['min'] > 0 : userRule == 'MustRunAsNonRoot'
           }
         end
       end
     end
   end
 end
-

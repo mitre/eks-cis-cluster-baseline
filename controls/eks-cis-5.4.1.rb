@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.4.1' do
   title 'Restrict Access to the Control Plane Endpoint'
   desc  "Enable Endpoint Private Access to restrict access to the cluster's
@@ -27,7 +25,7 @@ premises. Leaked certificates used from outside Amazon EC2 and outside the
 authorized IP ranges (for example, from addresses outside your company) are
 still denied access.
   "
-  desc  'check', "
+  desc 'check', "
     Input:
 
     ```
@@ -47,7 +45,7 @@ still denied access.
      ...
     ```
   "
-  desc  'fix', "
+  desc 'fix', "
     Complete the following steps using the AWS CLI version 1.18.10 or later.
 You can check your current version with aws --version. To install or upgrade
 the AWS CLI, see Installing the AWS CLI.
@@ -131,31 +129,30 @@ restrict network access to.
 
   expected_allowlist = input('allowlist_cidr_blocks')
 
-  access_restrictions = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig"})
+  access_restrictions = json({ command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig" })
   actual_allowlist = access_restrictions['publicAccessCidrs']
 
-  describe "Private access should be enabled" do
+  describe 'Private access should be enabled' do
     subject { access_restrictions }
     its('endpointPrivateAccess') { should be true }
   end
 
   describe.one do
-    describe "Public access should be disabled" do
+    describe 'Public access should be disabled' do
       subject { access_restrictions }
       its('endpointPublicAccess') { should be false }
     end
-    describe "Public access should be restricted to an allowlist of CIDR blocks" do
+    describe 'Public access should be restricted to an allowlist of CIDR blocks' do
       subject { actual_allowlist }
       it { should_not eq nil }
     end
   end
   if actual_allowlist
     actual_allowlist.each do |cidr|
-      describe "Cluster allowlist should match expected allowlist" do
+      describe 'Cluster allowlist should match expected allowlist' do
         subject { cidr }
         it { should be_in expected_allowlist }
       end
     end
   end
 end
-

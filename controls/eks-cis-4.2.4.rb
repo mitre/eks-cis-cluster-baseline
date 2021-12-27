@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.2.4' do
   title 'Minimize the admission of containers wishing to share the host
   network namespace'
@@ -32,7 +30,7 @@ access that PSP.
 
     Verify that there is at least one PSP which does not return true.
   "
-  desc  'fix', "Create a PSP as described in the Kubernetes documentation,
+  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
 ensuring that the `.spec.hostNetwork` field is omitted or set to false."
   impact 0.5
   tag severity: 'medium'
@@ -42,21 +40,20 @@ ensuring that the `.spec.hostNetwork` field is omitted or set to false."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.4'
 
-  k = command("kubectl get psp -o json")
+  k = command('kubectl get psp -o json')
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'hostNetwork']) { should_not eq true }
+        its(%w(spec hostNetwork)) { should_not eq true }
       end
     end
   end
 end
-

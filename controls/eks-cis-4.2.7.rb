@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.2.7' do
   title 'Minimize the admission of containers with the NET_RAW
   capability'
@@ -35,7 +33,7 @@ only limited service accounts and users are given permission to access that PSP.
 
     Verify that there is at least one PSP which returns NET_RAW or ALL.
   "
-  desc  'fix', "Create a PSP as described in the Kubernetes documentation,
+  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
 ensuring that the `.spec.requiredDropCapabilities` is set to include either
 `NET_RAW` or `ALL`."
   impact 0.5
@@ -46,21 +44,20 @@ ensuring that the `.spec.requiredDropCapabilities` is set to include either
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.7'
 
-  k = command("kubectl get psp -o json")
+  k = command('kubectl get psp -o json')
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'requiredDropCapabilities']) { should be_in ['NET_RAW', 'ALL'] }
+        its(%w(spec requiredDropCapabilities)) { should be_in %w(NET_RAW ALL) }
       end
     end
   end
 end
-

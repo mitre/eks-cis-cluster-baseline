@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.3.2' do
   title 'Ensure that all Namespaces have Network Policies defined'
   desc  'Use network policies to isolate traffic in your cluster network.'
@@ -27,7 +25,7 @@ cluster.
     Ensure that each namespace defined in the cluster has at least one Network
 Policy.
   "
-  desc  'fix', "Follow the documentation and create `NetworkPolicy` objects as
+  desc 'fix', "Follow the documentation and create `NetworkPolicy` objects as
 you need them."
   impact 0.7
   tag severity: 'high'
@@ -37,12 +35,12 @@ you need them."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-4', 'Rev_4']
+  tag nist: %w(AC-4 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['14.1', 'Rev_6']
   tag cis_rid: '4.3.2'
 
-  namespaces = command("kubectl get namespace -o=custom-columns=:.metadata.name --no-headers").stdout.split
+  namespaces = command('kubectl get namespace -o=custom-columns=:.metadata.name --no-headers').stdout.split
 
   if namespaces?
     namespaces.each do |namespace|
@@ -55,10 +53,9 @@ you need them."
       end
     end
   else
-    describe "Query for namespaces failed" do
+    describe 'Query for namespaces failed' do
       subject { namespaces }
       it { should exist }
     end
   end
 end
-

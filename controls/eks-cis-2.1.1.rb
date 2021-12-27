@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-2.1.1' do
   title 'Enable audit logs'
   desc  "The audit logs are part of the EKS managed Kubernetes control plane
@@ -32,7 +30,7 @@ https://console.aws.amazon.com/eks
     ```
     4. Ensure all 5 choices are set to Enabled
   "
-  desc  'fix', "
+  desc 'fix', "
     Perform the following to determine if CloudTrail is enabled for all regions:
 
     **Via The Management Console**
@@ -59,17 +57,17 @@ https://console.aws.amazon.com/eks
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AU-6', 'Rev_4']
+  tag nist: %w(AU-6 Rev_4)
   tag cis_level: 1
-  tag cis_controls: ['6', 'Rev_7']
+  tag cis_controls: %w(6 Rev_7)
   tag cis_rid: '2.1.1'
 
   region = input('cluster-region')
   name = input('cluster-name')
 
-  log_types_enabled = json({command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.logging.clusterLogging[?enabled].types"}).flatten
+  log_types_enabled = json({ command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.logging.clusterLogging[?enabled].types" }).flatten
 
-  describe "All five logging types should be enabled" do
+  describe 'All five logging types should be enabled' do
     subject { log_types_enabled }
     it { should include 'api' }
     it { should include 'audit' }
@@ -78,4 +76,3 @@ https://console.aws.amazon.com/eks
     it { should include 'scheduler' }
   end
 end
-

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.1.5' do
   title 'Ensure that default service accounts are not actively used'
   desc  "The `default` service account should not be used to ensure that rights
@@ -24,7 +22,7 @@ to it apart from the defaults.
     Additionally ensure that the `automountServiceAccountToken: false` setting
 is in place for each default service account.
   "
-  desc  'fix', "
+  desc 'fix', "
     Create explicit service accounts wherever a Kubernetes workload requires
 specific access to the Kubernetes API server.
 
@@ -48,13 +46,12 @@ false'`
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-2', 'Rev_4']
+  tag nist: %w(CM-2 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.2', 'Rev_7']
   tag cis_rid: '4.1.5'
 
-  describe "Manual control" do
-    skip "Manual review of service accounts should be conducted to ensure they do not have excessive role bindings"
+  describe 'Manual control' do
+    skip 'Manual review of service accounts should be conducted to ensure they do not have excessive role bindings'
   end
 end
-

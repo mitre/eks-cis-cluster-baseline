@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.2.5' do
   title 'Minimize the admission of containers with
   allowPrivilegeEscalation'
@@ -33,7 +31,7 @@ users are given permission to access that PSP.
 
     Verify that there is at least one PSP which does not return true.
   "
-  desc  'fix', "Create a PSP as described in the Kubernetes documentation,
+  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
 ensuring that the `.spec.allowPrivilegeEscalation` field is omitted or set to
 false."
   impact 0.5
@@ -44,21 +42,20 @@ false."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.5'
 
-  k = command("kubectl get psp -o json")
+  k = command('kubectl get psp -o json')
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'allowPrivilegeEscalation']) { should_not eq true }
+        its(%w(spec allowPrivilegeEscalation)) { should_not eq true }
       end
     end
   end
 end
-

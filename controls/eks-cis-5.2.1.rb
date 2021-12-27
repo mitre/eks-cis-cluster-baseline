@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.2.1' do
   title 'Prefer using dedicated EKS Service Accounts'
   desc  "Kubernetes workloads should not use cluster node service accounts to
@@ -21,7 +19,7 @@ to it apart from the defaults.
     Additionally ensure that the automountServiceAccountToken: false setting is
 in place for each default service account.
   "
-  desc  'fix', "
+  desc 'fix', "
     With IAM roles for service accounts on Amazon EKS clusters, you can
 associate an IAM role with a Kubernetes service account. This service account
 can then provide AWS permissions to the containers in any pod that uses that
@@ -73,8 +71,7 @@ accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service
   tag cis_controls: ['4.3', 'Rev_7']
   tag cis_rid: '5.2.1'
 
-  describe "Manual control" do
-    skip "Manual review is required to ensure any namespace default service accounts have no excessive roles"
+  describe 'Manual control' do
+    skip 'Manual review is required to ensure any namespace default service accounts have no excessive roles'
   end
 end
-

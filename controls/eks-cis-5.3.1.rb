@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-5.3.1' do
   title 'Ensure Kubernetes Secrets are encrypted using Customer Master
   Keys (CMKs) managed in AWS KMS'
@@ -35,7 +33,7 @@ event that they manage to gain access to etcd.
     aws eks describe-cluster --name=\"<cluster-name>\"
     ```
   "
-  desc  'fix', "Enable 'Secrets Encryption' during Amazon EKS cluster creation
+  desc 'fix', "Enable 'Secrets Encryption' during Amazon EKS cluster creation
 as described in the links within the 'References' section."
   impact 0.5
   tag severity: 'medium'
@@ -45,7 +43,7 @@ as described in the links within the 'References' section."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-28', 'Rev_4']
+  tag nist: %w(SC-28 Rev_4)
   tag cis_level: 1
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '5.3.1'
@@ -55,9 +53,8 @@ as described in the links within the 'References' section."
 
   encryption_enabled = command("aws eks describe-cluster --region #{region} --name #{name} --query cluster.encryptionConfig").stdout.strip
 
-  describe "Encryption configuration" do
+  describe 'Encryption configuration' do
     subject { encryption_enabled }
-    it { should_not eq "null" }
+    it { should_not eq 'null' }
   end
 end
-

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.6.1' do
   title 'Create administrative boundaries between resources using
   namespaces'
@@ -22,7 +20,7 @@ segregate access to namespace resources between different users."
     Ensure that these namespaces are the ones you need and are adequately
 administered as per your requirements.
   "
-  desc  'fix', "Follow the documentation and create namespaces for objects in
+  desc 'fix', "Follow the documentation and create namespaces for objects in
 your deployment as you need them."
   impact 0.5
   tag severity: 'medium'
@@ -32,13 +30,12 @@ your deployment as you need them."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6', 'Rev_4']
+  tag nist: %w(AC-6 Rev_4)
   tag cis_level: 1
-  tag cis_controls: ['14', 'Rev_6']
+  tag cis_controls: %w(14 Rev_6)
   tag cis_rid: '4.6.1'
 
-  describe "Manual control" do
-    skip "Manual review of namespaces is required to ensure proper configuration, and that no more namespaces exist than are needed"
+  describe 'Manual control' do
+    skip 'Manual review of namespaces is required to ensure proper configuration, and that no more namespaces exist than are needed'
   end
 end
-

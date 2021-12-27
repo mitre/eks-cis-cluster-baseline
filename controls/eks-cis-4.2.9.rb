@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 control 'eks-cis-4.2.9' do
   title 'Minimize the admission of containers with capabilities assigned'
   desc  'Do not generally permit containers with capabilities'
@@ -25,7 +23,7 @@ privilege use of capabilities should be minimized.
     kubectl get psp <name> -o=jsonpath='{.spec.requiredDropCapabilities}'
     ```
   "
-  desc  'fix', "Review the use of capabilites in applications runnning on your
+  desc 'fix', "Review the use of capabilites in applications runnning on your
 cluster. Where a namespace contains applicaions which do not require any Linux
 capabities to operate consider adding a PSP which forbids the admission of
 containers which do not drop all capabilities."
@@ -37,21 +35,20 @@ containers which do not drop all capabilities."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: %w(CM-6 Rev_4)
   tag cis_level: 2
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.9'
 
-  k = command("kubectl get psp -o json")
+  k = command('kubectl get psp -o json')
   psp = json(content: k.stdout)
 
   describe.one do
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(['spec', 'requiredDropCapabilities']) { should cmp 'ALL' }
+        its(%w(spec requiredDropCapabilities)) { should cmp 'ALL' }
       end
     end
   end
 end
-
