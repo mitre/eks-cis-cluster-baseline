@@ -42,16 +42,22 @@ you need them."
   tag cis_controls: ['14.1', 'Rev_6']
   tag cis_rid: '4.3.2'
 
-  # namespaces = ["default"]
   namespaces = command("kubectl get namespace -o=custom-columns=:.metadata.name --no-headers").stdout.split
 
-  namespaces.each do |namespace|
-    namespace_network_policy = command(
-      "kubectl get networkpolicy -n #{namespace} -o=custom-columns=:.metadata.name --no-headers"
-    ).stdout
-    describe "Namespace \"#{namespace}\" should have a defined network policy, network policy query result" do
-      subject { namespace_network_policy }
-      it { should_not be_empty }
+  if namespaces?
+    namespaces.each do |namespace|
+      namespace_network_policy = command(
+        "kubectl get networkpolicy -n #{namespace} -o=custom-columns=:.metadata.name --no-headers"
+      ).stdout
+      describe "Namespace \"#{namespace}\" should have a defined network policy, network policy query result" do
+        subject { namespace_network_policy }
+        it { should_not be_empty }
+      end
+    end
+  else
+    describe "Query for namespaces failed" do
+      subject { namespaces }
+      it { should exist }
     end
   end
 end

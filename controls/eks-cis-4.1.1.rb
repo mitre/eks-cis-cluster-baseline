@@ -52,10 +52,17 @@ the clusterrolebinding to the cluster-admin role :
 
   cluster_admin_principals = command("kubectl get clusterrolebindings cluster-admin --no-headers -o=custom-columns=':.subjects[*].name'").stdout.gsub("\r","").split("\n")
 
-  cluster_admin_principals.each do |principal|
-    describe "Cluster role bindings should restrict access to cluster-admin role" do
-      subject { principal }
-      it { should be_in allowed_cluster_admin_principals }
+  if cluster_admin_principals?
+    cluster_admin_principals.each do |principal|
+      describe "Cluster role bindings should restrict access to cluster-admin role" do
+        subject { principal }
+        it { should be_in allowed_cluster_admin_principals }
+      end
+    end
+  else
+    describe "Query for cluster role bindings failed" do
+      subject { cluster_admin_principals }
+      it { should exist }
     end
   end
 end
