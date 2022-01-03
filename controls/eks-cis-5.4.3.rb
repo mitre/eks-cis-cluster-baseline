@@ -17,7 +17,7 @@ access before attempting to compromise the underlying Kubernetes hosts."
   tag cci: nil
   tag nist: ['SC-7 (8)', 'Rev_4']
   tag cis_level: 1
-  tag cis_controls: %w(12 Rev_7)
+  tag cis_controls: ['12', 'Rev_7']
   tag cis_rid: '5.4.3'
 
   address_key = os.windows? ? '\"ExternalIP\"' : 'ExternalIP'

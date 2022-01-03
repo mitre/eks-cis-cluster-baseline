@@ -42,7 +42,7 @@ false."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: %w(CM-6 Rev_4)
+  tag nist: ['CM-6', 'Rev_4']
   tag cis_level: 1
   tag cis_controls: ['5.1', 'Rev_6']
   tag cis_rid: '4.2.5'
@@ -54,7 +54,7 @@ false."
     psp.items.each do |policy|
       describe "Pod security policy \"#{policy['metadata']['name']}\"" do
         subject { policy }
-        its(%w(spec allowPrivilegeEscalation)) { should_not eq true }
+        its(['spec', 'allowPrivilegeEscalation']) { should_not eq true }
       end
     end
   end

@@ -21,7 +21,7 @@ provider or a third-party secrets management solution."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: %w(SC-28 Rev_4)
+  tag nist: ['SC-28', 'Rev_4']
   tag cis_level: 2
   tag cis_controls: ['14.8', 'Rev_7']
   tag cis_rid: '4.4.2'
