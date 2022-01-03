@@ -13,9 +13,11 @@ workload is fundamental to protecting data sent over the web."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-8', 'Rev_4']
+  tag nist: ['SC-8']
   tag cis_level: 2
-  tag cis_controls: ['14.4', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['14.4'] }
+  ]
   tag cis_rid: '5.4.5'
 
   describe 'Manual control' do

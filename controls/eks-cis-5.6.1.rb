@@ -96,8 +96,11 @@ choose Create.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: nil
+  tag nist: ['AC-6']
   tag cis_level: 1
+  tag cis_controls: [
+    { '7' => ['18.9'] }
+  ]
   tag cis_rid: '5.6.1'
 
   describe 'Manual control' do

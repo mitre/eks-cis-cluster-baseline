@@ -30,9 +30,12 @@ your deployment as you need them."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6', 'Rev_4']
+  tag nist: ['AC-6']
   tag cis_level: 1
-  tag cis_controls: ['14', 'Rev_6']
+  tag cis_controls: [
+    { '6' => ['14'] },
+    { '7' => ['14'] }
+  ]
   tag cis_rid: '4.6.1'
 
   describe 'Manual control' do

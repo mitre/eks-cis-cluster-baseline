@@ -28,9 +28,11 @@ network to perform any attack on the Kubernetes API.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-7 (8)', 'Rev_4']
+  tag nist: ['SC-7']
   tag cis_level: 2
-  tag cis_controls: ['12', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['12'] }
+  ]
   tag cis_rid: '5.4.2'
 
   region = input('cluster-region')

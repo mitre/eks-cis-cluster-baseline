@@ -66,9 +66,11 @@ accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6 (9)', 'Rev_4']
+  tag nist: ['AC-6 (9)']
   tag cis_level: 1
-  tag cis_controls: ['4.3', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['4.3'] }
+  ]
   tag cis_rid: '5.2.1'
 
   describe 'Manual control' do

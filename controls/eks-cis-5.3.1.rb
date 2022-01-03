@@ -43,9 +43,11 @@ as described in the links within the 'References' section."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['SC-28', 'Rev_4']
+  tag nist: ['SC-28']
   tag cis_level: 1
-  tag cis_controls: ['14.8', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['14.8'] }
+  ]
   tag cis_rid: '5.3.1'
 
   region = input('cluster-region')

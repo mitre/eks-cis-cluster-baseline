@@ -127,9 +127,11 @@ Amazon Elastic Container Registry.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-3 (3)', 'Rev_4']
+  tag nist: ['AC-3 (3)']
   tag cis_level: 1
-  tag cis_controls: ['14.6', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['14.6'] }
+  ]
   tag cis_rid: '5.1.2'
 
   describe 'Manual control' do

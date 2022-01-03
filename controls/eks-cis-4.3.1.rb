@@ -20,9 +20,12 @@ policy using Calico."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: [nil, 'Rev_4']
+  tag nist: ['SI-2']
   tag cis_level: 1
-  tag cis_controls: ['18.4', 'Rev_7']
+  tag cis_controls: [
+    { '6' => ['5.1'] },
+    { '7' => ['5.2'] }
+  ]
   tag cis_rid: '4.3.1'
 
   describe 'Manual control' do

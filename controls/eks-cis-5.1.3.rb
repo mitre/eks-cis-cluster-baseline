@@ -49,9 +49,11 @@ ECR.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['RA-5 (5)', 'Rev_4']
+  tag nist: ['RA-5 (5)']
   tag cis_level: 1
-  tag cis_controls: ['3.2', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['3.2'] }
+  ]
   tag cis_rid: '5.1.3'
 
   describe 'Manual control' do

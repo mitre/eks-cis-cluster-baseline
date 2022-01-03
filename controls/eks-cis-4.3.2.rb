@@ -35,9 +35,14 @@ you need them."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-4', 'Rev_4']
-  tag cis_level: 2
+
   tag cis_controls: ['14.1', 'Rev_6']
+  tag nist: ['AC-4']
+  tag cis_level: 2
+  tag cis_controls: [
+    { '6' => ['14.1'] },
+    { '7' => ['14.1', '14.2'] }
+  ]
   tag cis_rid: '4.3.2'
 
   namespaces = command('kubectl get namespace -o=custom-columns=:.metadata.name --no-headers').stdout.split

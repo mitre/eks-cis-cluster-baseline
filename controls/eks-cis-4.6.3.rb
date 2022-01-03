@@ -27,9 +27,11 @@ specific namespace."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'Rev_4']
+  tag nist: ['CM-6']
   tag cis_level: 2
-  tag cis_controls: ['5.1', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['5.1'] }
+  ]
   tag cis_rid: '4.6.3'
 
   default_namespace_objects = command(

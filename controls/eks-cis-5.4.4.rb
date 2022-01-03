@@ -26,9 +26,11 @@ enforcement through the use of Calico.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-7 (1)', 'Rev_4']
+  tag nist: ['CM-7 (1)', 'SC-7 (5)']
   tag cis_level: 1
-  tag cis_controls: ['9.2', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['9.2', '9.4'] }
+  ]
   tag cis_rid: '5.4.4'
 
   describe 'Manual control' do

@@ -57,7 +57,7 @@ https://console.aws.amazon.com/eks
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AU-6', 'Rev_4']
+  tag nist: ['AU-6']
   tag cis_level: 1
   tag cis_controls: ['6', 'Rev_7']
   tag cis_rid: '2.1.1'

@@ -31,9 +31,11 @@ in Amazon EKS documentation."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-2', 'Rev_4']
+  tag nist: ['AC-2']
   tag cis_level: 2
-  tag cis_controls: ['16.2', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['16.2'] }
+  ]
   tag cis_rid: '5.5.1'
 
   describe 'Manual control' do
