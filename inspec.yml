@@ -33,5 +33,5 @@ inputs:
   - name: allowlist_cidr_blocks
     description: "IPs from within these CIDR blocks should be the only ones allowed to access the cluster via k8s API from outside the VPC"
     type: Array
-    value:
+    value: []
     # ex. ["0.0.0.0/0"]
