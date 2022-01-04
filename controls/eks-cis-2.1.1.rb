@@ -59,7 +59,9 @@ https://console.aws.amazon.com/eks
   tag cci: nil
   tag nist: ['AU-6']
   tag cis_level: 1
-  tag cis_controls: ['6', 'Rev_7']
+  tag cis_controls: [
+    { '7' => ['6'] }
+  ] 
   tag cis_rid: '2.1.1'
 
   region = input('cluster-region')
