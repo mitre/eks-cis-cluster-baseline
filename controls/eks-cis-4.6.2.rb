@@ -87,7 +87,7 @@ host path.
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['CM-6', 'RA-5']
+  tag nist: ['CM-6']
   tag cis_level: 2
   tag cis_controls: [
     { '6' => ['3'] },
