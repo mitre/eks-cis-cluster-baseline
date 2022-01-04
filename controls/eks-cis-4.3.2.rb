@@ -35,8 +35,6 @@ you need them."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-
-  tag cis_controls: ['14.1', 'Rev_6']
   tag nist: ['AC-4']
   tag cis_level: 2
   tag cis_controls: [
