@@ -13,8 +13,8 @@ non-Kubernetes environments."
   desc  'check', 'Review your secrets management implementation.'
   desc  'fix', "Refer to the secrets management options offered by your cloud
 provider or a third-party secrets management solution."
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil
