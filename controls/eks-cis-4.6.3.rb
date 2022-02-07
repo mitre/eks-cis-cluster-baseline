@@ -19,8 +19,8 @@ make it easier to manage resources."
   desc 'fix', "Ensure that namespaces are created to allow for appropriate
 segregation of Kubernetes resources and that all new resources are created in a
 specific namespace."
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil
