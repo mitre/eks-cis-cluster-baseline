@@ -23,8 +23,8 @@ yourIAMRoleName for a user that you created, and then run the following command:
   desc 'fix', "Refer to the '[Managing users or IAM roles for your
 cluster](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)'
 in Amazon EKS documentation."
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil
