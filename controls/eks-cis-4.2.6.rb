@@ -34,8 +34,8 @@ service accounts and users are given permission to access that PSP.
   desc 'fix', "Create a PSP as described in the Kubernetes documentation,
 ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
 `MustRunAs` with the range of UIDs not including 0."
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil
