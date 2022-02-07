@@ -18,8 +18,8 @@ environment variables defined from secrets.
   "
   desc  'fix', "If possible, rewrite application code to read secrets from
 mounted secret files, rather than from environment variables."
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil
