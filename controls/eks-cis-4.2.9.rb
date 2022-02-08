@@ -27,8 +27,8 @@ privilege use of capabilities should be minimized.
 cluster. Where a namespace contains applicaions which do not require any Linux
 capabities to operate consider adding a PSP which forbids the admission of
 containers which do not drop all capabilities."
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil

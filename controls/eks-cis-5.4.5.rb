@@ -5,8 +5,8 @@ control 'eks-cis-5.4.5' do
 workload is fundamental to protecting data sent over the web."
   desc  'check', ''
   desc  'fix', ''
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil

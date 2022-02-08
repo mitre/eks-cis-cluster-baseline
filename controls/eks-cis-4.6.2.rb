@@ -79,8 +79,8 @@ everything down and incrementally add exceptions for applications that need
 looser restrictions such as logging agents which need the ability to mount a
 host path.
   "
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil

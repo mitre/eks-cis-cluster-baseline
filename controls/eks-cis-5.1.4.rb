@@ -7,8 +7,8 @@ be deployed into the cluster. Allowlisting only approved container registries
 reduces this risk."
   desc  'check', ''
   desc  'fix', ''
-  impact 0.7
-  tag severity: 'high'
+  impact 0.5
+  tag severity: 'medium'
   tag gtitle: nil
   tag gid: nil
   tag rid: nil
