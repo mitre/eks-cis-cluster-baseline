@@ -73,7 +73,7 @@ https://console.aws.amazon.com/eks
     subject { log_types_enabled }
     it { should include 'api' }
     it { should include 'audit' }
-    it { should include 'authentication' }
+    it { should include 'authenticator' }
     it { should include 'controllerManager' }
     it { should include 'scheduler' }
   end
