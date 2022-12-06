@@ -53,7 +53,28 @@ false'`
   ]
   tag cis_rid: '4.1.5'
 
-  describe 'Manual control' do
-    skip 'Manual review of service accounts should be conducted to ensure they do not have excessive role bindings'
+  bindings = json(command:"kubectl get rolebinding,clusterrolebinding --all-namespaces -o json").params['items']
+
+  bindings.each do |binding|
+
+    subjects = binding['subjects']
+    next if subjects.nil?
+    sa = subjects.find { |x| x['kind'] == 'ServiceAccount'}
+    next if sa.nil?
+
+    describe "Service account for clusterrolebinding: #{binding['roleRef']['name']}" do
+      subject { sa['name'] }
+      it { should_not eq 'default' }
+    end
+  end
+
+  service_accounts = json(command:"kubectl get serviceaccount -A -o json").params['items']
+
+  service_accounts.each do |sa|
+    next unless sa['metadata']['name'].eql?('default')
+    describe "Default service account in namespace:#{sa['metadata']['namespace']}" do
+      subject { sa }
+      its(['automountServiceAccountToken']) { should cmp 'false'}
+    end
   end
 end
