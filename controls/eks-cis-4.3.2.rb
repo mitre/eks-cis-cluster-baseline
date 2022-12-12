@@ -42,20 +42,23 @@ you need them."
 
   namespaces = command('kubectl get namespace -o=custom-columns=:.metadata.name --no-headers').stdout.split
 
-  if namespaces?
-    namespaces.each do |namespace|
-      namespace_network_policy = command(
+  if namespaces != []
+    # filter for the namespaces that do not have a defined network policy (i.e. checking for the policy returns empty string)
+    noncompliant_namespaces = namespaces.filter_map { |namespace| 
+      namespace if command(
         "kubectl get networkpolicy -n #{namespace} -o=custom-columns=:.metadata.name --no-headers"
-      ).stdout
-      describe "Namespace \"#{namespace}\" should have a defined network policy, network policy query result" do
-        subject { namespace_network_policy }
-        it { should_not be_empty }
+      ).stdout == ""
+    }
+    describe "Each namespace" do
+      it "should have a defined network policy" do 
+        fail_msg = "Namespaces with missing network policies: #{noncompliant_namespaces}"
+        expect(noncompliant_namespaces).to be_empty, fail_msg
       end
     end
   else
-    describe 'Query for namespaces failed' do
+    describe 'No namespaces defined' do
       subject { namespaces }
-      it { should exist }
+      it { should_not eq [] }
     end
   end
 end
