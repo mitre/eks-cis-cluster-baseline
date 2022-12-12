@@ -12,15 +12,13 @@ inputs:
     description: "The name of the EKS cluster under test"
     type: String
     required: true
-    value: ""
-    # ex. "my-test-cluster"
+    # value: "my-test-cluster-name"
 
   - name: cluster-region
     description: "The region hosting the EKS cluster under test"
     type: String
     required: true
-    value: ""
-    # ex. "us-east-1"
+    # value: "us-east-1"
 
   # 4.1.1
   - name: allowed_cluster_admin_principals
@@ -33,5 +31,4 @@ inputs:
   - name: allowlist_cidr_blocks
     description: "IPs from within these CIDR blocks should be the only ones allowed to access the cluster via k8s API from outside the VPC"
     type: Array
-    value:
-    # ex. ["0.0.0.0/0"]
+    # value: ["0.0.0.0/0"]
