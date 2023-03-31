@@ -30,8 +30,14 @@ inputs:
     value: ["system:admin", "system:masters"]
 
   # 4.1.6
-  - name: allowlist_service_pods
+  - name: allowlist_pods
     description: "List the pods that explicitly need service account tokens to communicate with the API server"
+    type: Array
+    value: []
+
+  # 4.1.6
+  - name: allowlist_service_accounts
+    description: "List the service accounts that explicitly need to communicate with the API server"
     type: Array
     value: []
 
