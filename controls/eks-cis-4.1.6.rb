@@ -43,23 +43,27 @@ need to mount service account tokens to disable it."
   pods_with_automount_tokens = parse_config(pods.stdout, parse_options)
                                .params.select { |_key, value| value != 'false' }.keys
 
+  unauthorized_pods_with_automount_tokens = pods_with_automount_tokens - input('allowlist_pods')
+
   service_accounts = command("kubectl get serviceaccounts --all-namespaces -o=custom-columns=':.metadata.name,:.automountServiceAccountToken' --no-headers")
   sa_with_automount_tokens = parse_config(service_accounts.stdout, parse_options)
                              .params.select { |_key, value| value != 'false' }.keys
 
+  unauthorized_sa_with_automount_tokens = sa_with_automount_tokens - input('allowlist_service_accounts')
+
   describe 'List of pods with automount service account token setting' do
-    subject { pods_with_automount_tokens }
+    subject { unauthorized_pods_with_automount_tokens }
     it 'should be empty' do
-      fail_msg = "List of pods with automountServiceAccountToken setting: #{pods_with_automount_tokens.join(', ')}"
-      expect(pods_with_automount_tokens).to be_empty, fail_msg
+      fail_msg = "List of pods with automountServiceAccountToken setting: #{unauthorized_pods_with_automount_tokens.join(', ')}"
+      expect(unauthorized_pods_with_automount_tokens).to be_empty, fail_msg
     end
   end
 
   describe 'List of service accounts with automount service account token setting' do
-    subject { sa_with_automount_tokens }
+    subject { unauthorized_sa_with_automount_tokens }
     it 'should be empty' do
-      fail_msg = "List of service accounts with automountServiceAccountToken setting: #{sa_with_automount_tokens.join(', ')}"
-      expect(sa_with_automount_tokens).to be_empty, fail_msg
+      fail_msg = "List of service accounts with automountServiceAccountToken setting: #{unauthorized_sa_with_automount_tokens.join(', ')}"
+      expect(unauthorized_sa_with_automount_tokens).to be_empty, fail_msg
     end
   end
 end
