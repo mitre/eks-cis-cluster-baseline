@@ -39,11 +39,13 @@ need to mount service account tokens to disable it."
     assignment_regex: /^\s*([^\s]+?)\s+([^\s]+?)\s*$/,
   }
 
+  allowlist_pods = input('allowlist_pods')
+
   pods = command("kubectl get pods --all-namespaces -o=custom-columns=':.metadata.name,:.spec.automountServiceAccountToken' --no-headers")
   pods_with_automount_tokens = parse_config(pods.stdout, parse_options)
                                .params.select { |_key, value| value != 'false' }.keys
 
-  unauthorized_pods_with_automount_tokens = pods_with_automount_tokens - input('allowlist_pods')
+  unauthorized_pods_with_automount_tokens = pods_with_automount_tokens.reject { |pod| allowlist_pods.any? { |allowed| (Regexp.new allowed).match?(pod) } }
 
   service_accounts = command("kubectl get serviceaccounts --all-namespaces -o=custom-columns=':.metadata.name,:.automountServiceAccountToken' --no-headers")
   sa_with_automount_tokens = parse_config(service_accounts.stdout, parse_options)
