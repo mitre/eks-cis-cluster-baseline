@@ -31,7 +31,7 @@ inputs:
 
   # 4.1.6
   - name: allowlist_pods
-    description: "List the pods that explicitly need service account tokens to communicate with the API server"
+    description: "List the pod names that explicitly need service account tokens to communicate with the API server (matches as a regexp -- ex. allowing 'foobar' will allow pods named 'foobar-1234' and 'foobar-5678')"
     type: Array
     value: []
 
