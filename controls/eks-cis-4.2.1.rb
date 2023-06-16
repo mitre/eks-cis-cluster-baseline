@@ -8,32 +8,22 @@ devices. A container running with full privileges can do almost everything that
 the host can do. This flag exists to allow special use-cases, like manipulating
 the network stack and accessing devices.
 
-    There should be at least one PodSecurityPolicy (PSP) defined which does not
+    There should be at least one admission control policy defined which does not 
 permit privileged containers.
 
-    If you need to run privileged containers, this should be defined in a
-separate PSP and you should carefully check RBAC controls to ensure that only
-limited service accounts and users are given permission to access that PSP.
+If you need to run privileged containers, this should be defined in a separate policy and 
+you should carefully check to ensure that only limited service accounts and users are 
+given permission to use that policy.
   "
   desc  'check', "
-    Get the set of PSPs with the following command:
-
-    ```
-    kubectl get psp
-    ```
-
-    For each PSP, check whether privileged is enabled:
-
-    ```
-    kubectl get psp -o json
-    ```
-
-    Verify that there is at least one PSP which does not return `true`.
-
-    `kubectl get psp <name> -o=jsonpath='{.spec.privileged}'`
-  "
-  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
-ensuring that the `.spec.privileged` field is omitted or set to `false`."
+List the policies in use for each namespace in the cluster, ensure that each 
+policy disallows the admission of privileged containers."
+  desc 'fix', "Add policies to each namespace in the cluster which has user workloads to restrict the admission of privileged containers. 
+To enable PSA for a namespace in your cluster, set the pod-security.kubernetes.io/enforce label with the policy value you want to enforce. 
+kubectl label --overwrite ns NAMESPACE pod-security.kubernetes.io/enforce=restricted 
+The above command enforces the restricted policy for the NAMESPACE namespace. 
+You can also enable Pod Security Admission for all your namespaces. 
+For example: kubectl label --overwrite ns --all pod-security.kubernetes.io/warn=baseline"
   impact 0.5
   tag severity: 'medium'
   tag gtitle: nil
@@ -42,11 +32,12 @@ ensuring that the `.spec.privileged` field is omitted or set to `false`."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6 (9)', 'CM-2']
+  tag nist: ['AC-6 (9)', 'AC-6 (9)', 'AC-6 (2)']
   tag cis_level: 1
   tag cis_controls: [
     { '6' => ['5.1'] },
-    { '7' => ['5.2'] }
+    { '7' => ['4.3'] },
+    { '8' => ['5.4'] }
   ]
   tag cis_rid: '4.2.1'
 
