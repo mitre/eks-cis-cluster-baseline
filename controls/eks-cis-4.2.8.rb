@@ -11,22 +11,8 @@ capabilities to operate, so from the perspective of the principal of least
 privilege use of capabilities should be minimized.
   "
   desc  'check', "
-    Get the set of PSPs with the following command:
-
-    ```
-    kubectl get psp
-    ```
-
-    For each PSP, check whether capabilities have been forbidden:
-
-    ```
-    kubectl get psp <name> -o=jsonpath='{.spec.requiredDropCapabilities}'
-    ```
-  "
-  desc 'fix', "Review the use of capabilites in applications runnning on your
-cluster. Where a namespace contains applicaions which do not require any Linux
-capabities to operate consider adding a PSP which forbids the admission of
-containers which do not drop all capabilities."
+List the policies in use for each namespace in the cluster, ensure that at least one policy requires that capabilities are dropped by all containers.  "
+  desc 'fix', "Review the use of capabilities in applications running on your cluster. Where a namespace contains applications which do not require any Linux capabilities to operate consider adding a policy which forbids the admission of containers which do not drop all capabilities."
   impact 0.5
   tag severity: 'medium'
   tag gtitle: nil
