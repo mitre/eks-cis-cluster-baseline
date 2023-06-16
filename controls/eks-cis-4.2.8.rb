@@ -1,4 +1,4 @@
-control 'eks-cis-4.2.9' do
+control 'eks-cis-4.2.8' do
   title 'Minimize the admission of containers with capabilities assigned'
   desc  'Do not generally permit containers with capabilities'
   desc  'rationale', "
@@ -35,11 +35,12 @@ containers which do not drop all capabilities."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6 (9)', 'CM-2']
-  tag cis_level: 2
+  tag nist: ['AC-6 (9)', 'AC-6 (9)', 'AC-6 (2)']
+  tag cis_level: 1
   tag cis_controls: [
     { '6' => ['5.1'] },
-    { '7' => ['5.2'] }
+    { '7' => ['4.3'] },
+    { '8' => ['5.4'] }
   ]
   tag cis_rid: '4.2.9'
 
