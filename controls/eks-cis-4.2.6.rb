@@ -2,38 +2,14 @@ control 'eks-cis-4.2.6' do
   title 'Minimize the admission of root containers'
   desc  'Do not generally permit containers to be run as the root user.'
   desc  'rationale', "
-    Containers may run as any Linux user. Containers which run as the root
-user, whilst constrained by Container Runtime security features still have a
-escalated likelihood of container breakout.
-
-    Ideally, all containers should run as a defined non-UID 0 user.
-
-    There should be at least one PodSecurityPolicy (PSP) defined which does not
-permit root users in a container.
-
-    If you need to run root containers, this should be defined in a separate
-PSP and you should carefully check RBAC controls to ensure that only limited
-service accounts and users are given permission to access that PSP.
-  "
+Containers may run as any Linux user. Containers which run as the root user, whilst constrained by Container Runtime security features still have a escalated likelihood of container breakout.
+Ideally, all containers should run as a defined non-UID 0 user.
+There should be at least one admission control policy defined which does not permit root containers.
+If you need to run root containers, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.  "
   desc  'check', "
-    Get the set of PSPs with the following command:
-
-    ```
-    kubectl get psp
-    ```
-
-    For each PSP, check whether running containers as root is enabled:
-
-    ```
-    kubectl get psp <name> -o=jsonpath='{.spec.runAsUser.rule}'
-    ```
-
-    Verify that there is at least one PSP which returns `MustRunAsNonRoot` or
-`MustRunAs` with the range of UIDs not including 0.
+List the policies in use for each namespace in the cluster, ensure that each policy restricts the use of root containers by setting MustRunAsNonRoot or MustRunAs with the range of UIDs not including 0.
   "
-  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
-ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
-`MustRunAs` with the range of UIDs not including 0."
+  desc 'fix', "Create a policy for each namespace in the cluster, ensuring that either MustRunAsNonRoot or MustRunAs with the range of UIDs not including 0, is set."
   impact 0.5
   tag severity: 'medium'
   tag gtitle: nil
