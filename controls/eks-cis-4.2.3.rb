@@ -7,31 +7,15 @@ set to true."
     A container running in the host's IPC namespace can use IPC to interact
 with processes outside the container.
 
-    There should be at least one PodSecurityPolicy (PSP) defined which does not
+    There should be at least one admission control policy defined which does not
 permit containers to share the host IPC namespace.
 
-    If you have a requirement to containers which require hostIPC, this should
-be defined in a separate PSP and you should carefully check RBAC controls to
-ensure that only limited service accounts and users are given permission to
-access that PSP.
-  "
+If you need to run containers which require hostIPC, this should be defined in a 
+separate policy and you should carefully check to ensure that only limited service 
+accounts and users are given permission to use that policy.  "
   desc  'check', "
-    Get the set of PSPs with the following command:
-
-    ```
-    kubectl get psp
-    ```
-
-    For each PSP, check whether privileged is enabled:
-
-    ```
-    kubectl get psp <name> -o=jsonpath='{.spec.hostIPC}'
-    ```
-
-    Verify that there is at least one PSP which does not return true.
-  "
-  desc 'fix', "Create a PSP as described in the Kubernetes documentation,
-ensuring that the `.spec.hostIPC` field is omitted or set to false."
+List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of hostIPC containers  "
+  desc 'fix', "Add policies to each namespace in the cluster which has user workloads to restrict the admission of hostIPC containers."
   impact 0.5
   tag severity: 'medium'
   tag gtitle: nil
