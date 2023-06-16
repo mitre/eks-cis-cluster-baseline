@@ -42,11 +42,12 @@ ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6 (9)', 'CM-2']
+  tag nist: ['AC-6 (9)', 'AC-6 (9)', 'AC-6 (2)']
   tag cis_level: 1
   tag cis_controls: [
     { '6' => ['5.1'] },
-    { '7' => ['5.2'] }
+    { '7' => ['4.3'] },
+    { '8' => ['5.4'] }
   ]
   tag cis_rid: '4.2.6'
 
