@@ -1,4 +1,4 @@
-control 'eks-cis-4.2.8' do
+control 'eks-cis-4.2.7' do
   title 'Minimize the admission of containers with added capabilities'
   desc  "Do not generally permit containers with capabilities assigned beyond
 the default set."
@@ -35,11 +35,12 @@ the cluster unless it is set to an empty array."
   tag stig_id: nil
   tag fix_id: nil
   tag cci: nil
-  tag nist: ['AC-6 (9)', 'CM-2']
+  tag nist: ['AC-6 (9)', 'AC-6 (9)', 'AC-6 (2)']
   tag cis_level: 1
   tag cis_controls: [
     { '6' => ['5.1'] },
-    { '7' => ['5.2'] }
+    { '7' => ['4.3'] },
+    { '8' => ['5.4'] }
   ]
   tag cis_rid: '4.2.8'
 
