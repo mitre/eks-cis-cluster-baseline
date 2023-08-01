@@ -41,15 +41,12 @@ For example: kubectl label --overwrite ns --all pod-security.kubernetes.io/warn=
   ]
   tag cis_rid: '4.2.1'
 
-  k = command('kubectl get psp -o json')
-  psp = json(content: k.stdout)
+  k = command(
+    "kubectl get ns --selector=pod-security.kubernetes.io/enforce!=restricted -o jsonpath=\'{.items[*].metadata.name}\'"
+  ).stdout.strip.split(' ')
 
-  describe.one do
-    psp.items.each do |policy|
-      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
-        subject { policy }
-        its(['spec', 'privileged']) { should_not eq true }
-      end
-    end
+  describe "List of namespaces with a pod security admission policy (PSA) which allows privileged pods" do
+    subject { k }
+    it { should be_empty }
   end
 end
