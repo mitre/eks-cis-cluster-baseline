@@ -27,18 +27,18 @@ List the policies in use for each namespace in the cluster, ensure that each pol
   ]
   tag cis_rid: '4.2.6'
 
-  k = command('kubectl get psp -o json')
-  psp = json(content: k.stdout)
+  unless input("alternative_policy_enforcement")
+    k = command(
+      "kubectl get ns --selector=pod-security.kubernetes.io/enforce!=restricted -o jsonpath=\'{.items[*].metadata.name}\'"
+    ).stdout.strip.split(' ') - input("allowed_namespaces_privileged") - input("allowed_namespaces_baseline")
 
-  describe.one do
-    psp.items.each do |policy|
-      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
-        it 'should not allow pods to run as root' do
-          expect(policy['spec']['runAsUser']['rule']).to satisfy { |userRule|
-            userRule == 'MustRunAs' ? userRule['ranges']['min'] > 0 : userRule == 'MustRunAsNonRoot'
-          }
-        end
-      end
+    describe "List of namespaces with a pod security admission policy (PSA) which allows containers to run as root" do
+      subject { k }
+      it { should be_empty }
+    end
+  else
+    describe "Third-party policy enforcement in use" do
+      skip "Input set to indicate use of third-party policy enforcement mechanism; manually review third-party policy enforcement method to ensure compliance with security policies"
     end
   end
 end

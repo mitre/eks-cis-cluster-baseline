@@ -28,17 +28,20 @@ List the policies in use for each namespace in the cluster, ensure that at least
     { '7' => ['4.3'] },
     { '8' => ['5.4'] }
   ]
-  tag cis_rid: '4.2.9'
+  tag cis_rid: '4.2.8'
 
-  k = command('kubectl get psp -o json')
-  psp = json(content: k.stdout)
+  unless input("alternative_policy_enforcement")
+    k = command(
+      "kubectl get ns --selector=pod-security.kubernetes.io/enforce!=restricted -o jsonpath=\'{.items[*].metadata.name}\'"
+    ).stdout.strip.split(' ') - input("allowed_namespaces_privileged") - input("allowed_namespaces_baseline")
 
-  describe.one do
-    psp.items.each do |policy|
-      describe "Pod security policy \"#{policy['metadata']['name']}\"" do
-        subject { policy }
-        its(['spec', 'requiredDropCapabilities']) { should cmp 'ALL' }
-      end
+    describe "List of namespaces with a pod security admission policy (PSA) which does not force containers to drop all Linux capabilities" do
+      subject { k }
+      it { should be_empty }
+    end
+  else
+    describe "Third-party policy enforcement in use" do
+      skip "Input set to indicate use of third-party policy enforcement mechanism; manually review third-party policy enforcement method to ensure compliance with security policies"
     end
   end
 end
