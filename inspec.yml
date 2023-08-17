@@ -42,6 +42,24 @@ inputs:
     type: Array
     value: []
 
+  # 4.2.X
+  - name: alternative_policy_enforcement
+    description: "Set to true if using a third-party policy enforcement solution (ex. Kubewarden, Kyverno)"
+    type: Boolean
+    value: false
+
+  # 4.2.X
+  - name: allowed_namespaces_privileged
+    description: "List namespaces allowed to operate under the 'privileged' Pod Security Standard"
+    type: Array
+    value: []
+
+  # 4.2.X
+  - name: allowed_namespaces_baseline
+    description: "List namespaces allowed to operate under the 'baseline' Pod Security Standard"
+    type: Array
+    value: []
+
   # 5.4.1, 5.4.2
   - name: allowlist_cidr_blocks
     description: "IPs from within these CIDR blocks should be the only ones allowed to access the cluster via k8s API from outside the VPC"
