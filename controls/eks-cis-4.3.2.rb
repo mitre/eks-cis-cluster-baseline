@@ -45,7 +45,7 @@ you need them."
 
   namespaces = command('kubectl get namespace -o=custom-columns=:.metadata.name --no-headers').stdout.split
 
-  if namespaces?
+  unless namespaces.empty?
     namespaces.each do |namespace|
       namespace_network_policy = command(
         "kubectl get networkpolicy -n #{namespace} -o=custom-columns=:.metadata.name --no-headers"
@@ -58,7 +58,7 @@ you need them."
   else
     describe 'Query for namespaces failed' do
       subject { namespaces }
-      it { should exist }
+      it { should_not be_empty }
     end
   end
 end
