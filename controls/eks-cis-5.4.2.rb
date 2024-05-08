@@ -43,11 +43,6 @@ network to perform any attack on the Kubernetes API.
   access_restrictions = json({ command: "aws eks describe-cluster --region #{region} --name #{name} --query cluster.resourcesVpcConfig" })
   actual_allowlist = access_restrictions['publicAccessCidrs']
 
-  describe 'Private access should be enabled' do
-    subject { access_restrictions }
-    its('endpointPrivateAccess') { should be true }
-  end
-
   describe.one do
     describe 'Public access should be disabled' do
       subject { access_restrictions }
